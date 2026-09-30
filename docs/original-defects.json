@@ -1,0 +1,88 @@
+[
+  {
+    "name": "XLSX input mismatch",
+    "evidence": ".xls"
+  },
+  {
+    "name": "Reset before course throws",
+    "evidence": [
+      "Cannot set properties of null (setting 'value')"
+    ]
+  },
+  {
+    "name": "Duplicate course choices within one upload",
+    "evidence": [
+      "Select a course to begin",
+      "CS",
+      "CS"
+    ]
+  },
+  {
+    "name": "Reversed minimum and maximum labels",
+    "evidence": [
+      "Min90",
+      "Max20",
+      "Avg55.00",
+      "Median55"
+    ]
+  },
+  {
+    "name": "Missing 100 accepted by range validation",
+    "evidence": {
+      "error": "",
+      "gradeAmax": "99"
+    }
+  },
+  {
+    "name": "Single-mark grade rejected",
+    "evidence": "Each grade must have Min < Max."
+  },
+  {
+    "name": "Cleared instructor does not disable export",
+    "evidence": {
+      "exportDisabled": false
+    }
+  },
+  {
+    "name": "Course change resets edited cutoffs",
+    "evidence": {
+      "minimumAfterChange": "80"
+    }
+  },
+  {
+    "name": "Numeric strings corrupt mean and median",
+    "evidence": {
+      "average": "3540.00",
+      "median": "3540"
+    }
+  },
+  {
+    "name": "Constant scores cause non-finite bell-curve coordinates",
+    "evidence": {
+      "nonFinite": 101
+    }
+  },
+  {
+    "name": "Repeated upload keeps old course options and stale selection",
+    "evidence": {
+      "options": [
+        "",
+        "CS",
+        "CS",
+        "Math"
+      ],
+      "selected": "CS",
+      "average": "NaN",
+      "median": "NaN"
+    }
+  },
+  {
+    "name": "Mobile layout wider than viewport",
+    "evidence": {
+      "viewport": 390,
+      "document": 668,
+      "deviceWidth": 390,
+      "hasViewportMeta": false
+    }
+  }
+]

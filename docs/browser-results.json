@@ -1,0 +1,25 @@
+{
+  "passed": 19,
+  "checks": [
+    "empty-state controls safe and XLSX picker correct",
+    "template downloads with three correct headers",
+    "demo shows correct statistics and unique courses",
+    "invalid cutoffs block export; undo restores validity",
+    "course drafts persist separately and show grade impact",
+    "student search, grade filter, sorting and pagination",
+    "CSV and audit exports include every course student despite filters",
+    "timer resumes after editing exported grades",
+    "reset uses one confirmation and is undoable",
+    "actual XLSX import clears stale courses and preserves zero and 100",
+    "invalid rows report worksheet numbers and preserve current workbook",
+    "formula workbook rejected",
+    "corrupt workbook produces recoverable feedback",
+    "replacement cancel preserves existing data",
+    "large constant cohort histogram remains in bounds",
+    "clearing instructor immediately blocks export",
+    "mobile layout and dialog fit 390 px",
+    "200 percent text enlargement has no page overflow",
+    "No uncaught browser exceptions"
+  ],
+  "uncaughtErrors": []
+}
