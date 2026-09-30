@@ -8,7 +8,7 @@ The application opens directly in a browser. No installation, sign-in or configu
 
 ## GITHUB REPOSITORY URL
 
-**Add your public GitHub repository URL here after uploading the files.**
+https://github.com/SuryanshKkumar/codeforge-grading-console-
 
 Use the repository's main page URL. Check that it opens while you are signed out so the evaluation team can view the final code.
 
@@ -28,9 +28,7 @@ I added search, grade filters and sorting so instructors can check individual re
 
 ## WHAT ARE YOUR LEARNINGS FROM THIS ACTIVITY?
 
-*Reflection draft: read this once and adjust it to match what you personally learned.*
-
-This activity taught me to follow the data through the whole application, from the Excel file to the chart and finally the exported grades. A page can look correct even when the underlying values are wrong. For example, a mark imported as text can affect calculations, and a missed boundary can leave a student without the expected grade.
+This activity taught me flow of data through the whole application, from the Excel file to the chart and finally the exported grades. A page can look correct even when the underlying values are wrong. For example, a mark imported as text can affect calculations, and a missed boundary can leave a student without the expected grade.
 
 I also learned to test the less obvious cases: an empty workbook, duplicate IDs, marks of 0 and 100, invalid grade boundaries and switching between courses. Checking these cases made the app more dependable than testing only the sample data.
 
