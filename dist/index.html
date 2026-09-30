@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en" data-theme="ocean">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="A CodeForge challenge grading console. Validate Excel marks, review grade boundaries and export course results. Student data stays in your browser.">
+<title>CodeForge · Grading console</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="themes.css">
+<script src="vendor/xlsx.full.min.js" defer></script><script src="app.mjs" type="module"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to workspace</a>
+<aside class="sidebar">
+  <a class="brand" href="#main"><span class="brand-mark" aria-hidden="true">CF</span><span>CodeForge<small>GRADING WORKSPACE</small></span></a>
+  <div class="side-label">YOUR WORKFLOW</div>
+  <nav aria-label="Workspace"><a class="nav-link active" href="#import"><span>01</span> Import marks</a><a class="nav-link" href="#analysis"><span>02</span> Review analytics</a><a class="nav-link" href="#boundaries"><span>03</span> Set grade bands</a><a class="nav-link" href="#students"><span>04</span> Review students</a></nav>
+  <div class="side-bottom"><div class="shield" aria-hidden="true">◈</div><strong>Your data stays here</strong><p>Files are processed in your browser. Refreshing clears your session.</p><span class="prototype">BITS DIGITAL CODEFORGE</span><p>Challenge prototype<br>Not an official BITS grading tool.</p></div>
+</aside>
+<div class="shell">
+  <header class="topbar"><span>Workspace <span class="slash">/</span> Grading console</span><div class="theme-picker" role="group" aria-label="Colour scheme"><span class="theme-caption">A little colour</span><button type="button" class="theme-choice" data-theme-choice="ocean" aria-pressed="true" aria-label="Ocean colour scheme"><i class="swatch ocean" aria-hidden="true"></i><span>Ocean</span></button><button type="button" class="theme-choice" data-theme-choice="sunset" aria-pressed="false" aria-label="Sunset colour scheme"><i class="swatch sunset" aria-hidden="true"></i><span>Sunset</span></button><button type="button" class="theme-choice" data-theme-choice="berry" aria-pressed="false" aria-label="Berry colour scheme"><i class="swatch berry" aria-hidden="true"></i><span>Berry</span></button></div></header>
+  <main id="main">
+    <div class="page-title"><div><div class="eyebrow">BITS DIGITAL CODEFORGE</div><h1>Your grading desk<span class="title-dot">.</span></h1><p>Bring in your marks. Take a closer look. Make the final call.</p></div><button id="demo" class="button secondary">Try the sample class</button></div>
+    <section class="import-panel" id="import" aria-labelledby="import-title">
+      <div class="section-heading"><h2 id="import-title"><span class="step">01</span> Start with your class</h2><span id="file-status" class="muted">No file loaded</span></div>
+      <div class="setup-grid">
+        <div class="field"><label for="instructor">Instructor name <span class="required">*</span></label><input id="instructor" maxlength="120" autocomplete="name" placeholder="Enter your name"><span class="field-hint">Your name will appear in the export</span></div>
+        <div class="field"><label for="file">Marks workbook</label><label class="upload-control" for="file"><span class="upload-icon" aria-hidden="true">+</span><span id="upload-label">Choose an Excel file</span><span class="filetype">.xlsx</span><input id="file" type="file" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"></label><span class="field-hint">Up to 5 MB · <button id="template" class="text-button">Download template</button></span></div>
+        <div class="field"><label for="course">Course</label><select id="course" disabled><option value="">Upload a workbook first</option></select><span id="course-hint" class="field-hint">Courses are read from your file</span></div>
+      </div>
+      <details class="guidance"><summary>File format and grading rules</summary><p>Use exactly three columns: <strong>BITS ID</strong>, <strong>Course</strong>, and <strong>Total Marks</strong>. Enter whole-number marks from 0 to 100. Store IDs as text to keep leading zeros. Exclude students who should receive NC. Only the first worksheet is read. Fractional marks are rejected; apply your institution’s rounding policy before import.</p></details>
+    </section>
+    <div id="message" role="status" aria-live="polite" hidden></div>
+    <section id="import-errors" class="error-panel" aria-labelledby="errors-title" hidden><h2 id="errors-title">Let’s fix a few things in this workbook</h2><p id="error-summary"></p><ul id="error-list"></ul></section>
+    <div class="course-heading" id="analysis"><div><h2 id="course-title">Course overview</h2><span id="course-meta" class="muted">Your class will appear here after you add a workbook.</span></div><span id="dataset-badge" class="badge" hidden></span></div>
+    <section class="stats-grid" aria-label="Course statistics">
+      <div class="stat"><span>Students</span><strong id="stat-count">—</strong><small id="count-note">In selected course</small></div>
+      <div class="stat"><span>Average mark</span><strong id="stat-mean">—</strong><small>Out of 100</small></div>
+      <div class="stat"><span>Median mark</span><strong id="stat-median">—</strong><small>Middle of the cohort</small></div>
+      <div class="stat"><span>Lowest / highest</span><strong id="stat-range">—</strong><small>Actual score range</small></div>
+    </section>
+    <div class="workspace-grid">
+      <section class="panel analytics-panel" aria-labelledby="distribution-title">
+        <div class="panel-header"><div><h2 id="distribution-title">Marks distribution</h2><p>Students in each score band</p></div><span class="chart-key"><i></i> Students</span></div>
+        <div id="histogram" class="histogram"><div class="empty-chart"><span aria-hidden="true">▥</span><strong>A picture of your class</strong><p>Add your marks to see where everyone stands.</p></div></div>
+        <details id="chart-data" class="chart-details" hidden><summary>View chart data as text</summary><div id="chart-data-content"></div></details>
+        <div class="grade-heading"><h3>Grade distribution</h3><span id="assigned-count" class="muted">No students yet</span></div>
+        <div id="grade-bar" class="grade-bar" aria-hidden="true"></div><div id="grade-legend" class="grade-legend"></div>
+        <div class="insight"><span class="insight-icon" aria-hidden="true">i</span><p id="insight-text">Every valid mark will belong to exactly one grade band.</p></div>
+      </section>
+      <section class="panel bands-panel" id="boundaries" aria-labelledby="bands-title">
+        <div class="panel-header"><div><h2 id="bands-title">Grade boundaries</h2><p>Set the minimum mark for each grade</p></div><button id="reset" class="text-button" disabled>Reset</button></div>
+        <div class="band-table"><div class="band-row band-head"><span>GRADE</span><span>MINIMUM</span><span>RANGE</span><span>STUDENTS</span></div><div id="band-inputs"></div></div>
+        <div id="range-error" class="range-error" role="alert" hidden></div>
+        <div class="band-footer"><span id="coverage" class="coverage">0–100 covered by default</span><button id="undo" class="text-button" disabled>Undo change</button></div>
+        <p class="band-note">We’ll adjust the upper limits as you go. Your changes stay with this course.</p>
+      </section>
+    </div>
+    <section class="panel students-panel" id="students" aria-labelledby="students-title">
+      <div class="panel-header"><div><h2 id="students-title">Student review <span id="student-total" class="count-pill">0</span></h2><p id="impact-label">Preview each student’s grade before exporting.</p></div><div class="table-controls"><label class="sr-only" for="search">Search BITS ID</label><input id="search" type="search" placeholder="Search BITS ID" disabled><label class="sr-only" for="grade-filter">Filter by grade</label><select id="grade-filter" disabled><option value="">All grades</option></select><label class="sr-only" for="sort">Sort students</label><select id="sort" disabled><option value="id">BITS ID ↑</option><option value="high">Marks ↓</option><option value="low">Marks ↑</option></select></div></div>
+      <div class="table-scroll"><table><thead><tr><th scope="col">BITS ID</th><th scope="col">TOTAL MARKS</th><th scope="col">GRADE</th><th scope="col">FROM DEFAULT</th></tr></thead><tbody id="student-body"><tr><td colspan="4" class="table-empty">Your student list will appear here after import.</td></tr></tbody></table></div>
+      <div class="table-footer"><span id="page-label">0 students</span><div><button id="prev" class="pager" aria-label="Previous page" disabled>Previous</button><button id="next" class="pager" aria-label="Next page" disabled>Next</button></div></div>
+    </section>
+    <section class="export-strip" aria-label="Export grades"><div><strong id="ready-title">Ready when you are</strong><p id="ready-detail">Load a workbook and enter your name to begin.</p></div><div class="export-actions"><div class="timer"><span>REVIEW TIME</span><strong id="timer">00:00</strong></div><button id="review" class="button primary" disabled>Review & export</button></div></section>
+    <footer><span>Challenge prototype · Not an official BITS grading tool.</span><span>Your judgement. Your grade boundaries.</span></footer>
+  </main>
+</div>
+<dialog id="confirm-dialog" aria-labelledby="confirm-title"><form method="dialog"><button class="dialog-close" value="cancel" aria-label="Close dialog">×</button><span class="eyebrow">WORKSPACE UPDATE</span><h2 id="confirm-title">Replace this workbook?</h2><p id="confirm-detail">Replacing the workbook clears the current data and grade drafts.</p><div class="dialog-actions"><button class="button secondary" value="cancel">Keep current</button><button id="confirm-action" class="button primary" value="confirm">Replace workbook</button></div></form></dialog>
+<dialog id="export-dialog" aria-labelledby="export-title"><button id="close-export" class="dialog-close" aria-label="Close export review">×</button><span class="eyebrow">FINAL REVIEW</span><h2 id="export-title">Review your export</h2><p id="export-context"></p><div class="review-metrics"><div><strong id="export-count"></strong><span>Students</span></div><div><strong>100%</strong><span>Assigned a grade</span></div><div><strong id="export-changes"></strong><span>Changed from default</span></div></div><div id="export-bands" class="export-bands"></div><p class="export-note">The CSV includes every student in this course, regardless of search or filters. Import BITS ID as text in Excel to keep leading zeros. Text that could be interpreted as a spreadsheet formula is prefixed with an apostrophe.</p><p id="export-status" role="status"></p><div class="dialog-actions"><button id="audit" class="button secondary">Download audit JSON</button><button id="download" class="button primary">Download grades CSV</button></div></dialog>
+</body></html>
