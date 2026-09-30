@@ -14,8 +14,6 @@ The live app opens in a browser with no installation, account or configuration. 
 - Excel validation, separate grade drafts for each course, undo and a count of students affected by changes.
 - A searchable student table and a final review before downloading all course grades and an optional audit record.
 
-The form answers are in [SUBMISSION_ANSWERS.md](SUBMISSION_ANSWERS.md). See [UPLOAD_TO_GITHUB.md](UPLOAD_TO_GITHUB.md) for the upload steps.
-
 ## Run locally
 
 Requires Node.js 20 or later. No package installation or build is needed to run the app.
@@ -25,18 +23,6 @@ node server.mjs
 ```
 
 Open http://127.0.0.1:4173. Use an HTTP server; opening `index.html` directly may block ES modules and the workbook worker.
-
-## Try the complete workflow
-
-1. Click **Try the sample class** or import `dist/sample-marks.xlsx`.
-2. Enter an instructor name.
-3. Choose Data Structures or Linear Algebra.
-4. Change A’s minimum from 80 to 79. The impact summary reports one changed student in Data Structures.
-5. Switch courses and return to verify that each course keeps its own draft.
-6. Search a BITS ID, filter grades or change the sort order.
-7. Choose **Review & export**, check the summary and download the CSV. Download the JSON audit if needed.
-
-The sample contains 60 fictional student-course records. The built-in demo and sample workbook contain the same data. No real student data is included in this package or deployment.
 
 ## Input contract
 
@@ -88,16 +74,3 @@ node tests/original-defects.mjs
 ```
 
 The scripts accept `CODEFORGE_PLAYWRIGHT_PATH` for an absolute Playwright module path, `CODEFORGE_CHROME_PATH` for an installed Chrome executable, and `CODEFORGE_QA_DIR` for output evidence. They use an isolated headless browser. Browser tests write the fictional sample workbook and QA screenshots. They do not use a personal browser profile.
-
-## Design decisions and limits
-
-- Source comments marked sections “LOCKED,” but the assignment explicitly asks participants to fix and reimagine the application. Those comments were treated as source annotations; the assignment’s requirements control the implementation.
-- The document and original HTML disagree about rounding. The document’s whole-number requirement is used, with no invented institutional rounding policy.
-- Drafts exist only in this tab’s memory and are cleared on refresh. The UI states this. There is no login, database, backend grading service or official academic submission integration.
-- Only the chosen colour scheme is saved in local browser storage. Changing themes preserves the current course, student data and edited cutoffs.
-- This implementation was exercised in desktop Chromium and mobile-size Chromium viewports. A physical-device or full cross-browser certification was not performed.
-- The histogram intentionally shows empirical counts instead of overlaying a normal curve that may not fit a cohort.
-
-## Third-party source
-
-SheetJS Community Edition 0.20.3 is vendored from the [official standalone distribution](https://docs.sheetjs.com/docs/getting-started/installation/standalone/). Its license is included in `dist/vendor/LICENSE`. The app needs no external script, font or analytics request at runtime.
